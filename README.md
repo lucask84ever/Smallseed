@@ -1,2 +1,1 @@
 # Smallseed
-Smallseed first project
