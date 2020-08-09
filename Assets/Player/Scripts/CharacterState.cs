@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CharacterState : MonoBehaviour
 {
+
+    // Is Armed
+    private bool isUseGun = false;
     // Controller
     public CharacterController controller;
     
@@ -14,6 +17,8 @@ public class CharacterState : MonoBehaviour
 
     // Animator
     public Animator animator;
+    public RuntimeAnimatorController  unarmed;
+    public RuntimeAnimatorController  armed;
 
     // Positions
     private float z;
@@ -32,6 +37,7 @@ public class CharacterState : MonoBehaviour
 
     void Start()
     {
+        animator.runtimeAnimatorController = unarmed;
         state = CharacterStateEnum.IDLE;
     }
 
@@ -41,12 +47,15 @@ public class CharacterState : MonoBehaviour
         x = Input.GetAxis("Horizontal");
         z = Input.GetAxis("Vertical");
 
+        if(Input.GetKeyDown(KeyCode.Mouse2)) {
+            isUseGun = !isUseGun;
+            animator.runtimeAnimatorController = isUseGun ? armed : unarmed;
+        }
+
         if(Input.GetButtonDown("Jump") && isGrounded) {
             state = CharacterStateEnum.JUMPING;
             velocity.y = Mathf.Sqrt(jumpHeight * -3f * gravity);
-            
-            animator.SetInteger("state", (int) state);  
-            print((int) state);
+            animator.SetInteger("state", (int) state);
             return;
         }
 
@@ -106,9 +115,7 @@ public class CharacterState : MonoBehaviour
                 speed = 1f;
             }
         }
-
         animator.SetInteger("state", (int) state);
-        print((int) state);
     }
 }
 
