@@ -7,6 +7,7 @@ public class CharacterState : MonoBehaviour
 
     // Is Armed
     private bool isUseGun = false;
+    public GameObject gun;
     // Controller
     public CharacterController controller;
     
@@ -49,7 +50,9 @@ public class CharacterState : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Mouse2)) {
             isUseGun = !isUseGun;
+            gun.SetActive(isUseGun);
             animator.runtimeAnimatorController = isUseGun ? armed : unarmed;
+            
         }
 
         if(Input.GetButtonDown("Jump") && isGrounded) {
