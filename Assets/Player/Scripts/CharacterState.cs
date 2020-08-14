@@ -50,9 +50,8 @@ public class CharacterState : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Mouse2)) {
             isUseGun = !isUseGun;
-            gun.SetActive(isUseGun);
             animator.runtimeAnimatorController = isUseGun ? armed : unarmed;
-            
+            StartCoroutine(enableGun());
         }
 
         if(Input.GetButtonDown("Jump") && isGrounded) {
@@ -120,6 +119,12 @@ public class CharacterState : MonoBehaviour
         }
         animator.SetInteger("state", (int) state);
     }
+
+    IEnumerator enableGun() {
+        yield return new WaitForSeconds(0.5f);
+        gun.SetActive(isUseGun);
+
+    } 
 }
 
 public enum CharacterStateEnum
